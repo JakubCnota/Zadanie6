@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+                xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Zadanie6.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Zadanie6.Views.MainView"
+             x:DataType="vm:MainViewModel">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10" Spacing="20">
+			<StackPanel Spacing="5">
+				<TextBlock Text="Data:" />
+				<CalendarDatePicker SelectedDate="{Binding NewPurchase.DateTime, Mode=TwoWay}" />
+			</StackPanel>
+			<StackPanel Spacing="5" Width="200">
+				<TextBlock Text="Nazwa:" />
+				<TextBox Text="{Binding NewPurchase.Title}" />
+			</StackPanel>
+			<StackPanel Spacing="5" Width="200">
+				<TextBlock Text="Ilość:" />
+				<NumericUpDown FormatString="F" Value="{Binding NewPurchase.Amount}" />
+			</StackPanel>
+			<StackPanel Spacing="5" Width="200">
+				<TextBlock Text="Cena jednostkowa:" />
+				<NumericUpDown FormatString="C" Value="{Binding NewPurchase.UnitPrice}" />
+			</StackPanel>
+			<Button Content="Zapisz" Command="{Binding AddPurchaseCommand}" />
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Purchases^}" IsReadOnly="True">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+				<DataGridTextColumn Header="Data" Binding="{Binding DateTime}"/>
+				<DataGridTextColumn Header="Nazwa" Binding="{Binding Title}"/>
+				<DataGridTextColumn Header="Ilość" Binding="{Binding Amount}"/>
+				<DataGridTextColumn Header="Cena jednostkowa" Binding="{Binding UnitPrice}"/>
+				<DataGridTextColumn Header="Suma brutto" Binding="{Binding GrossPrice}"/>
+				<DataGridTemplateColumn Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button Content="Usuń"
+									Margin="5"
+									Command="{Binding Path=DataContext.DeletePurchaseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+									CommandParameter="{Binding}" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+	
+ 
+
+</UserControl>
